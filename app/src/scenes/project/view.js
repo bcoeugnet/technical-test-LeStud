@@ -24,7 +24,7 @@ export default function ProjectView() {
   useEffect(() => {
     (async () => {
       const { data: u } = await api.get(`/project/${id}`);
-      setProject(u);
+      setProject(u[0]);
     })();
   }, []);
 
@@ -34,6 +34,7 @@ export default function ProjectView() {
     }
   }, [copied]);
 
+
   if (!project) return <Loader />;
 
   return (
@@ -42,7 +43,7 @@ export default function ProjectView() {
         <div className="bg-[#FFFFFF] border border-[#E5EAEF] py-3 rounded-[16px]">
           <div className="flex justify-between px-3 pb-2  border-b border-[#E5EAEF]">
             <div>
-              <span className="text-[18px] text-[#212325] font-semibold">Project details</span>
+              <span className="text-[22px] text-[#212325] font-semibold">Project details</span>
             </div>
             <div className="flex items-center gap-2">
               <button
@@ -60,7 +61,8 @@ export default function ProjectView() {
 }
 
 const ProjectDetails = ({ project }) => {
-  console.log(project);
+  console.log("project", project) 
+  console.log("name", project?.name)
   return (
     <div>
       <div className="flex flex-wrap p-3">
@@ -69,8 +71,9 @@ const ProjectDetails = ({ project }) => {
             <div className="w-full">
               <div className="flex justify-between gap-2">
                 <div className="flex gap-20">
-                  <span className="w-fit text-[20px] text-[#0C1024] font-bold">Nom du projet : </span>
-                  <span className="w-fit text-[20px] text-[#0C1024] font-bold">{project.name.toString()}</span>
+                  <div className="w-fit text-[20px] text-[#0C1024] font-bold">
+                  {`Nom du projet :`} <span className="w-fit text-[18px] text-[#0C1024] font-normal font-italic">{project.name}</span>
+                </div>
                 </div>
                 <div className="flex flex-1 flex-column items-end gap-3">
                   <Links project={project} />
@@ -81,7 +84,7 @@ const ProjectDetails = ({ project }) => {
                   <span className="text-[16px] text-[#676D7C] font-medium">{project.description ? project.description : ""}</span>
                 </div>
                 <div className="mt-4 text-[18px] text-[#000000] font-semibold">
-                  {`Objective :`} <span className="text-[#676D7C] text-[16px] font-medium">{project.objective ? project.objective : ""}</span>
+                  {`Objective :`} <span className="text-[#676D7C] text-[16px] font-medium font-italic">{project.objective ? project.objective : ""}</span>
                 </div>
                 <div className="mt-2 mr-2">
                   <span className="text-[18px] font-semibold text-[#000000]">Budget consummed {project.paymentCycle === "MONTHLY" && "this month"}:</span>
