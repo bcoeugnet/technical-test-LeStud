@@ -248,6 +248,9 @@ const UserCard = ({ hit, projects }) => {
       <div className="flex flex-col flex-1 justify-between">
         <div className="flex flex-col items-center text-center my-4 space-y-1">
           <p className="font-semibold text-lg">{hit.name}</p>
+          <p>{hit.job_title}</p>
+          <p className="font-semibold text-lg">Projects</p>
+          <p>{hit.selected_project}</p>
         </div>
       </div>
     </div>

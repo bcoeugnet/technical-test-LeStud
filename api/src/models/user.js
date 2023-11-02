@@ -25,6 +25,7 @@ const Schema = new mongoose.Schema({
 
   description: { type: String },
   job_title: { type: String },
+  selected_project: { type: String},
 
   organisation: { type: String, trim: true, unique: true },
   status: { type: String, default: "active" },

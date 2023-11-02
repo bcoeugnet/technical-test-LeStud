@@ -9,6 +9,8 @@ import api from "../../services/api";
 
 export default () => {
   const [user, setUser] = useState(null);
+  const [projects, setProjects] = useState(null);
+  const [activeProjects, setActiveProjects] = useState(null);
   const { id } = useParams();
   useEffect(() => {
     (async () => {
@@ -17,18 +19,30 @@ export default () => {
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      const { data: u } = await api.get("/project");
+      setProjects(u);
+    })();
+  }, []);
+
+  useEffect(() => {
+    const p = (projects || []).filter((p) => p.status === "active");
+    setActiveProjects(p);
+  }, [projects]);
+
   if (!user) return <Loader />;
 
   return (
     <div>
       <div className="appContainer pt-24">
-        <Detail user={user} />
+        <Detail user={user} projects={projects} />
       </div>
     </div>
   );
 };
 
-const Detail = ({ user }) => {
+const Detail = ({ user, projects}) => {
   const history = useHistory();
 
   async function deleteData() {
@@ -129,6 +143,19 @@ const Detail = ({ user }) => {
                 name="description"
                 value={values.description}
                 onChange={handleChange}></textarea>
+            </div>
+
+            <div>
+            <div className="text-[14px] text-[#212325] font-medium	">Select a project</div>
+              <select className="w-full text-[14px] font-normal text-[#212325] border border-[#ced4da] mt-2 rounded-[10px] text-sm p-2  focus:outline-none focus:ring focus:ring-[#80bdff]"
+              id="project-select" type="select" name="selected_project" onChange={handleChange}>
+                <option value="">{values.selected_project}</option>
+                {projects && projects.map((project) => (
+                  <option key={project.id} value={project.id}>
+                    {project.name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="flex  mt-2">
